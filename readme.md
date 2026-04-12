@@ -168,11 +168,10 @@
   - **Users**: { _id (objectID), firstName (String), lastName (String), email (String), password (Hashed String), isAdmin (Boolean), mobileNumber (String), bookedFlights (Array of ObjectIDs) }
   - **Airlines**: { _id (objectID), name (String), countryOfOperation (String), flights (Array of ObjectIDs) }.
   - **Flights**: { _id (objectID), airlineID (ObjectID ref: Airlines), origin (String), destination (String), departureTime (Date), arrivalTime (Date), class (String), price (Number), isActive (Boolean), seatsAvailable (Number) }.
-  - **Bookings**: { _id (objectID), userID (ObjectID ref: Users), flightID (ObjectID ref: Flights), passengerDetails (Object), numberOfSeats (Number), totalAmountPaid (Number), paymentMethod (String), bookedOn (Date) }.
-                                                                                                                                                                                                                                                
+  - **Bookings**: { _id (objectID), userID (ObjectID ref: Users), flightID (ObjectID ref: Flights), passengerDetails (Object), numberOfSeats (Number), totalAmountPaid (Number), paymentMethod (String), bookedOn (Date) }.                                                                                                                                                                                           
 - **Database Requirements**:
   - **Database Architecture:** The system utilizes MongoDB, a document-oriented NoSQL database, to provide high scalability and flexible data structures for flight and user management.
-  - **Password Security: The `password` field must be noted as a **Hashed String** to reflect the use of Bcrypt for security.
+  - **Password Security:** The `password` field must be noted as a **Hashed String** to reflect the use of Bcrypt for security.
   - **Object ID Referencing:** The `bookedFlights` in the **Users** collection and `flights` in the **Airlines** collection should explicitly store **ObjectIDs** rather than simple Strings to support Mongoose `populate()`.
   - **Passenger Details:** A `passengerDetails` object is added to the **Bookings** model to capture traveler information (Name/Contact) as specified in your **Booking Form** feature.
   -  **Flight & Airline Relationship:** Each document in the Flights collection includes an airlineID linking back to the Airlines collection to associate flights with carriers
@@ -219,5 +218,4 @@
 
 - **Revision History**:
   - v1.0 (2026-03): Initial project setup and core feature definition (Lenin Red Paje).
-
   - v1.1 (2026-04): Technical refinement, integration of Bcrypt/JWT security, design specification updates, and data model normalization (Chinee Marasigan).
