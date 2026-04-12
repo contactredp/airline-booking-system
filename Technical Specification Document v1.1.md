@@ -1,7 +1,7 @@
 # Technical Specifications Document
 
 ## 1. Title Page
-- **Project Name**: SkyStream Airline Booking System
+- **Project Name**: **AIRBOOK PH** Airline Booking System
 - **Version**: 1.1 (Revised)
 - **Date**: April 11, 2026
 - **Author(s)**: Lenin Red Paje, Chinee Marasigan, Shae Padilla, James Ivan Lazo
@@ -55,23 +55,27 @@
   - Booking storage and retrieval.
 
 - **User Classes and Characteristics**: 
-  - **Guest Users/Travelers**: Regular users who search, book flights, and manage their itineraries. Requires an intuitive, mobile-responsive interface for flight management.
-  - **Admin Users**: Administrators who manage, flight inventories, user data, and system wide user bookings.
+  - **Guest (Unregistered) User**: Unauthenticated users with read-only access to promotional content, "Popular Destinations," and flight searches; must register or log in to complete a booking.
+  - **Registered User (Traveler)**: Authenticated users with access to the full booking funnel and a personal dashboard to manage profiles and view upcoming or completed itineraries.
+  - **Admin Users**: System administrators with elevated privileges and full CRUD capabilities to manage flight inventories, system-wide bookings, and user accounts.
 
 - **Operating Environment**: 
   - **Frontend**: Modern web browsers (Chrome, Edge, Safari) with mobile-first responsiveness
   - **Backend**: Node.js and Express.js runtime environment.
-  - **Database:** MongoDB Atlas (Cloud-based).
+  - **Database**: MongoDB Atlas (Cloud-based).
 
 - **Assumptions and Dependencies**: 
   - Assumes active internet connectivity for database access 
   - MongoDB Atlas cluster is operational.
 
 ## 5. Visual Mockup Reference
-- **Link or Screenshot**: a visual mockup of the home page, the 'Search Flights' page, and search results made using Figma can be accessed via this link: https://www.figma.com/design/LncFnBdLfb879xl8qkXqM9
+- **Link or Screenshot**: a visual mockup of the home page, the 'Search Flights' page, and search results made using Figma can be accessed via this link: https://www.figma.com/make/zjrq3CDi1fw4VDFnpAgUL8/Design-System-Specification?p=f&t=YI1gyLWLrfHJg6rv-0&fullscreen=1
+
 - **Design Specs:** 
-  - **Primary Palette:** Sky Blue (#A1D0EE), Mint (#99FFFE), and Deep Navy.
-  - **Layout:** 12-column grid system for Bootstrap Mobile Responsiveness with a standardized 20px border radius. 
+  - **Primary Palette:** Brand Blue (#1A56DB), Success Green, Warning Yellow, and Danger Red.
+  - **Typography:** **Inter** font family for UI hierarchy; JetBrains Mono for flight codes and booking references.
+  - **Layout:** 12-column Bootstrap grid (max-width 1280px) with a 4px spacing scale and Mobile Responsive.
+  - **Components:** 6px border-radius for inputs, 8px for buttons/cards, and 12px for large containers.
 
 ## 6. Features
 - **Secure User Authentication:** Provides a robust registration and login system utilizing Bcrypt for one-way password hashing and JWT (JSON Web Tokens) for secure, stateless session management.
@@ -123,12 +127,12 @@
   - **Outputs**: Successful account creation and session establishment via JWT.
   - **Error Handling**: Displays validation errors for missing fields, invalid email formats, or existing accounts.
 
-- **Feature 2**: Dynamic Flight Search
-  - **Description**: Enables users to query available flights based on specific travel criteria.
+- **Feature 2**: Dynamic Flight Search & Advanced Filtering
+  - **Description**: Allows users to search for flights with trip-type toggles (Round-trip/One-way) and refine results using a FilterSidebar.
   - **Priority**: High
-  - **Inputs**: Origin, destination, departure/arrival dates, class, and passenger count.
-  - **Processing**: The system validates inputs and performs a Mongoose query to find matching documents in the Flights collection.
-  - **Outputs**: A filtered list of available flight cards with schedule and price details
+  - **Inputs**: Origin, destination, dates, price range, number of stops, and preferred airlines.
+  - **Processing**: Mongoose queries filter documents based on sidebar selections. Results can be sorted by price, duration, or departure time.
+  - **Outputs**: Detailed FlightCards showing airline info, duration, stops, and real-time pricing.
   - **Error Handling**: Displays an "Empty State" or "No Results Found" message if no flights match the criteria.
 
 - **Feature 3**: Validated Booking Form
@@ -140,11 +144,11 @@
   - **Error Handling**: Show specific errors for invalid data formats or missing mandatory passenger fields
 
   - **Feature 4**: Manage Booking (Itinerary Retrieval)
-  - **Description**: Allows registered users to retrieve and view their existing flight reservations.
+  - **Description**: Users can search and view their booking history with status indicators.
   - **Priority**: High
   - **Inputs**: User authentication token or specific booking reference number.
-  - **Processing**: The system finds and returns stored booking information using Mongoose populate() to link user and flight data.
-  - **Outputs**: Detailed itinerary view including departure/arrival times and status.
+  - **Processing**: Uses Mongoose `populate()` to link user data with flight documents and applies Status Filters (Upcoming vs. Completed).
+  - **Outputs**: Searchable list of booking cards with status labels and action buttons.
   - **Error Handling**: Show a "Booking Not Found" error if the reference is invalid or the session has expired.
 
 
@@ -165,13 +169,14 @@
 
 ## 9. Data Requirements
 - **Data Models**: This is the format used by the documents stored in the collections in the MongoDB database. Field names and data types are given.
-  - **Users**: { _id (objectID), firstName (String), lastName (String), email (String), password (Hashed String), isAdmin (Boolean), mobileNumber (String), bookedFlights (Array of ObjectIDs) }
-  - **Airlines**: { _id (objectID), name (String), countryOfOperation (String), flights (Array of ObjectIDs) }.
-  - **Flights**: { _id (objectID), airlineID (ObjectID ref: Airlines), origin (String), destination (String), departureTime (Date), arrivalTime (Date), class (String), price (Number), isActive (Boolean), seatsAvailable (Number) }.
-  - **Bookings**: { _id (objectID), userID (ObjectID ref: Users), flightID (ObjectID ref: Flights), passengerDetails (Object), numberOfSeats (Number), totalAmountPaid (Number), paymentMethod (String), bookedOn (Date) }.                                                                                                                                                                                           
+  - **Users**: { _id (objectID), firstName (String), lastName (String), email (String), password (Hashed String), isAdmin (Boolean), mobileNumber (String), bookedFlights (Array of objectIDs) }
+  - **Airlines**: { _id (objectID), name (String), countryOfOperation (String), flights (Array of objectIDs) }.
+  - **Flights**: { ... airlineID (objectID), origin (String), destination (String), departureTime (Date), arrivalTime (Date), stops (Number), price (Number), isActive (Boolean) }
+  - **Bookings**: { ... bookingReference (String), userID (objectID), flightID (objectID), passengerDetails (Object), totalAmountPaid (Number), status (String) }                                                                                                                                                                                                           
 - **Database Requirements**:
   - **Database Architecture:** The system utilizes MongoDB, a document-oriented NoSQL database, to provide high scalability and flexible data structures for flight and user management.
-  - **Password Security:** The `password` field must be noted as a **Hashed String** to reflect the use of Bcrypt for security.
+  - **Password Security:** The `password` field must be noted as a **Hashed String** to reflect the use of **Bcrypt** for security.
+  - **Booking Reference:** A unique alphanumeric bookingReference (displayed in JetBrains Mono) is generated for each document in the Bookings collection.
   - **Object ID Referencing:** The `bookedFlights` in the **Users** collection and `flights` in the **Airlines** collection should explicitly store **ObjectIDs** rather than simple Strings to support Mongoose `populate()`.
   - **Passenger Details:** A `passengerDetails` object is added to the **Bookings** model to capture traveler information (Name/Contact) as specified in your **Booking Form** feature.
   -  **Flight & Airline Relationship:** Each document in the Flights collection includes an airlineID linking back to the Airlines collection to associate flights with carriers
@@ -186,7 +191,7 @@
 **ERD Link:** The Entity-Relationship Diagram for the system can be viewed via this link: https://drive.google.com/file/d/1E4F9EyBhdrqAfFI_aChv3gZBbX0LSGDR/view?usp=sharing
 
 ## 10. External Interface Requirements
-- **User Interfaces**: These are the web pages the end user can access. The design follows a mobile-first approach with a 20px border radius and a Navy/Sky Blue palette. (Refer to the Figma mockup for visual details).
+- **User Interfaces**: These are the web pages the end user can access. The design follows a mobile-first approach with a 12px border radius and a `Brand Blue (#1A56DB)` palette. (Refer to the Figma mockup for visual details).
   - **Homepage:** Features the main search bar and hero section.
   - **Registration Page:** Includes validation for secure account creation.
   - **Login Page:** Secure gateway for registered users.
@@ -210,6 +215,10 @@
 - **Collection**: A group of MongoDB documents, analogous to a table in relational databases.
 - **Field**: A key-value pair within a MongoDB document representing a specific data attribute.
 - **Data Type**: A classification that specifies the kind of value a variable or field can hold, such as string, number, boolean, or date.
+- **Booking Reference**: A unique identifier code used to retrieve specific reservation details.
+- **FilterSidebar**: A UI component that allows users to narrow down search results based on specific criteria like price and airlines.
+- **Trip Type Toggle**: A control allowing users to switch between One-way and Round-trip flight searches.
+
 
 ## 12. Appendices
 - **Supporting Information**:
@@ -218,4 +227,4 @@
 
 - **Revision History**:
   - v1.0 (2026-03): Initial project setup and core feature definition (Lenin Red Paje).
-  - v1.1 (2026-04): Technical refinement, integration of Bcrypt/JWT security, design specification updates, and data model normalization (Chinee Marasigan).
+  - v1.1 (2026-04): Technical refinement, integration of Bcrypt/JWT security, Design System alignment with AIRBOOK PH Figma (Inter/Brand Blue), and implementation of advanced filtering/sorting logic (Chinee Marasigan).
