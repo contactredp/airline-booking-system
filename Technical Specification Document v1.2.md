@@ -69,7 +69,7 @@
   - MongoDB Atlas cluster is operational.
 
 ## 5. Visual Mockup Reference
-- **Link or Screenshot**: a visual mockup of the home page, the 'Search Flights' page, and search results made using Figma can be accessed via this link: https://www.figma.com/make/zjrq3CDi1fw4VDFnpAgUL8/Design-System-Specification?p=f&t=YI1gyLWLrfHJg6rv-0&fullscreen=1
+- **Link or Screenshot**: a visual mockup of the home page, the 'Search Flights' page, and search results made using Figma can be accessed via this link: https://www.figma.com/design/A1FVt00i3WJf3zmFgQfs13/Airline-Booking-System-Mock-up?node-id=0-1&p=f&t=FaZbbkPzrfsXTH05-0
 
 - **Design Specs:** 
   - **Primary Palette:** Brand Blue (#1A56DB), Success Green, Warning Yellow, and Danger Red.
@@ -188,7 +188,7 @@
   - A Many-to-Many relationship is managed between Users and Flights via the **Bookings** collection, which acts as the reference link.
 
 - **ERD Implementation:** The physical database structure is implemented according to the Entity-Relationship Diagram (ERD), which defines the primary connections between user accounts, flight schedules, and booking records. 
-**ERD Link:** The Entity-Relationship Diagram for the system can be viewed via this link: https://drive.google.com/file/d/1E4F9EyBhdrqAfFI_aChv3gZBbX0LSGDR/view?usp=sharing
+**ERD Link:** The Entity-Relationship Diagram for the system can be viewed via this link: https://drive.google.com/file/d/1-oN5-ONjIo5AZ6VzDBdXFntxY7Lcbp4P/view
 
 ## 10. External Interface Requirements
 - **User Interfaces**: These are the web pages the end user can access. The design follows a mobile-first approach with a 12px border radius and a `Brand Blue (#1A56DB)` palette. (Refer to the Figma mockup for visual details).
@@ -228,3 +228,4 @@
 - **Revision History**:
   - v1.0 (2026-03): Initial project setup and core feature definition (Lenin Red Paje).
   - v1.1 (2026-04): Technical refinement, integration of Bcrypt/JWT security, Design System alignment with AIRBOOK PH Figma (Inter/Brand Blue), and implementation of advanced filtering/sorting logic (Chinee Marasigan).
+  - v1.2 (2026-04): Updated the Figma mockup and ERD links to the revised versions. (Lenin Red Paje).
