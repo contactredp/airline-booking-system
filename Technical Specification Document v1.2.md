@@ -2,7 +2,7 @@
 
 ## 1. Title Page
 - **Project Name**: **AIRBOOK PH** Airline Booking System
-- **Version**: 1.1 (Revised)
+- **Version**: 1.2 (Revised)
 - **Date**: April 11, 2026
 - **Author(s)**: Lenin Red Paje, Chinee Marasigan, Shae Padilla, James Ivan Lazo
 
